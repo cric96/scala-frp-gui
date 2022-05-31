@@ -1,7 +1,7 @@
 package it.unibo.game.loop
 
-import it.unibo.game.control.{CollisionDetection, MovePlayer, RandomWalk, Spawner}
-import it.unibo.game.core.{Controller, Event, TimeFlow, World}
+import it.unibo.game.update.{CollisionDetection, MovePlayer, RandomWalk, Spawner, Update}
+import it.unibo.game.core.{Event, TimeFlow, World}
 import it.unibo.game.ui.UI
 import it.unibo.game.core.Space.Point2D
 import it.unibo.game.core.Event.*
@@ -28,7 +28,7 @@ object GameLoop:
     given Random = Random()
     given OverflowStrategy[Event] = OverflowStrategy.Default
     val world = World.empty
-    val controls: Controller = Controller.combine(
+    val controls: Update = Update.combine(
       MovePlayer(Point2D(0, 0), 1e-4),
       Spawner(rate = 0.03),
       RandomWalk(0.00005),

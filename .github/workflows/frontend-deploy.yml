@@ -30,8 +30,8 @@ jobs:
           java-version: adopt@1.${{ matrix.java }}
       - name: Coursier cache
         uses: coursier/cache-action@v5
-      - name: Sbt test
-        run: sbt test
+#      - name: Sbt test
+#        run: sbt test
       - name: Build project
         run:  sbt -v "project js; fastOptJS"
       - name: Adjust folders for deployment
@@ -41,3 +41,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./public
+          github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,7 @@
-package it.unibo.game.control
+package it.unibo.game.update
 
-import it.unibo.game.core.{Controller, Entity, Event, World}
-import it.unibo.game.core.Controller.*
+import it.unibo.game.core.{Entity, Event, World}
+import it.unibo.game.update.Update.*
 import it.unibo.game.core.Event.*
 import it.unibo.game.core.Space.*
 import it.unibo.game.core.Entity.*
@@ -10,7 +10,7 @@ import monix.reactive.Observable
 import monocle.syntax.all.*
 
 object CollisionDetection:
-  def apply(): Controller = on[TimePassed] { (_: Event, world: World) =>
+  def apply(): Update = on[TimePassed] { (_: Event, world: World) =>
     Task {
       val foodToEat = world.food.filter(hit(_, world.player)).find(canEat(_, world.player))
       foodToEat match

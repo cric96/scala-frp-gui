@@ -1,6 +1,6 @@
-package it.unibo.game.control
+package it.unibo.game.update
 
-import it.unibo.game.core.Controller.*
+import it.unibo.game.update.Update.*
 import it.unibo.game.core.*
 import it.unibo.game.core.Space.*
 import it.unibo.game.core.Event.TimePassed
@@ -9,7 +9,7 @@ import monix.eval.Task
 import monocle.syntax.all.*
 import scala.util.Random
 object RandomWalk:
-  def apply(maxVelocity: Double)(using random: Random): Controller = on[TimePassed] { (timePassed, world) =>
+  def apply(maxVelocity: Double)(using random: Random): Update = on[TimePassed] { (timePassed, world) =>
     val updates = world.food.map(food => moveRandom(food, maxVelocity, timePassed.deltaTime))
     for {
       elements <- Task.parSequence(updates)

@@ -1,14 +1,14 @@
-package it.unibo.game.control
+package it.unibo.game.update
 
-import it.unibo.game.core.{Controller, Entity, Event, World}
+import it.unibo.game.core.{Entity, Event, World}
 import it.unibo.game.core.Entity.Player
 import it.unibo.game.core.Event.MoveTo
 import it.unibo.game.core.Space.{Point2D, applyVelocity}
 import monix.eval.Task
 import monocle.syntax.all.*
 
-case class MovePlayer(where: Point2D, velocity: Double) extends Controller:
-  override def apply(event: Event, world: World): Task[(World, Controller)] = event match
+case class MovePlayer(where: Point2D, velocity: Double) extends Update:
+  override def apply(event: Event, world: World): Task[(World, Update)] = event match
     case MoveTo(where) => Task(world, this.focus(_.where).replace(where))
     case Event.TimePassed(deltaTime) =>
       Task(world.focus(_.player).modify(goto(_, where, deltaTime, velocity)), this)

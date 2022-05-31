@@ -19,4 +19,6 @@ private class WorldPane(val world: World, width: Int, height: Int) extends JPane
       val (widthCircle, heightCircle) = ((entity.diameter * width).toInt, (entity.diameter * height).toInt)
       graphics.setColor(Color.getHSBColor(entity.size.toFloat, 1, 0.5))
       graphics.fillOval(x - widthCircle / 2, y - heightCircle / 2, widthCircle, heightCircle)
+      graphics.setColor(Color.BLACK)
+      graphics.drawOval(x - widthCircle / 2, y - heightCircle / 2, widthCircle, heightCircle)
     }

@@ -1,11 +1,11 @@
-package it.unibo.game.control
+package it.unibo.game.update
 
-import it.unibo.game.core.Controller.*
+import it.unibo.game.update.Update.*
 import it.unibo.game.core.Entity.Food
 import it.unibo.game.core.Space.*
 import monix.eval.Task
 import it.unibo.game.core.Event.*
-import it.unibo.game.core.{Controller, Event, World}
+import it.unibo.game.core.{Event, World}
 import monocle.syntax.all.*
 import scala.concurrent.duration.FiniteDuration
 import scala.util.Random
@@ -13,7 +13,7 @@ import scala.util.Random
 object Spawner:
   private val minBound = 0.001
   private val maxBound = 0.01
-  def apply(rate: Double)(using random: Random): Controller = on[Event.TimePassed] { (_, world) =>
+  def apply(rate: Double)(using random: Random): Update = on[Event.TimePassed] { (_, world) =>
     if (random.nextDouble() < rate)
       Task(world.focus(_.food).modify(_ :+ newFood()))
     else
