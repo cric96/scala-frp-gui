@@ -1,6 +1,6 @@
 ThisBuild / scalaVersion := "3.1.2"
 
-name := "scala-concurrency"
+name := "scala-frp-gui"
 
 lazy val core = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
