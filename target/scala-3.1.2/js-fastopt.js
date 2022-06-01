@@ -2320,7 +2320,8 @@ $c_Lit_unibo_game_Main$package$.prototype.mainJS__V = (function() {
   var div = document.createElement("div");
   div.style = "text-align: center";
   canvas.style = "border: 5px solid black; display: block; margin: 0 auto";
-  var canvasSize = $doubleToInt((0.985 * $uD(window.innerHeight)));
+  var size = (($uD(window.innerHeight) > $uD(window.innerWidth)) ? $uD(window.innerWidth) : $uD(window.innerHeight));
+  var canvasSize = $doubleToInt((0.985 * size));
   canvas.width = canvasSize;
   canvas.height = canvasSize;
   body.append(canvas);
@@ -2914,13 +2915,20 @@ function $h_Lit_unibo_game_view_PimpDom$package$() {
 $h_Lit_unibo_game_view_PimpDom$package$.prototype = $c_Lit_unibo_game_view_PimpDom$package$.prototype;
 $c_Lit_unibo_game_view_PimpDom$package$.prototype.mouseObservable__Lorg_scalajs_dom_HTMLCanvasElement__Lmonix_reactive_Observable = (function(canvas) {
   var boundingBox = canvas.getBoundingClientRect();
-  var subject = new $c_Lmonix_reactive_subjects_PublishSubject();
-  canvas.onmousemove = ((boundingBox$2, subject$2) => ((e) => {
-    var _1 = $doubleToInt(($uD(e.clientX) - $uD(boundingBox$2.x)));
-    var _2 = $doubleToInt(($uD(e.clientY) - $uD(boundingBox$2.y)));
-    return subject$2.onNext__O__s_concurrent_Future(new $c_T2(_1, _2))
-  }))(boundingBox, subject);
-  return subject
+  $m_Lmonix_reactive_Observable$();
+  var overflowStrategy = $m_Lmonix_reactive_OverflowStrategy$Unbounded$();
+  $m_Lmonix_reactive_Observable$();
+  var producerType = $m_Lmonix_execution_ChannelType$MultiProducer$();
+  var f = new $c_sjsr_AnonFunction1(((canvas$2, boundingBox$2) => ((subject) => {
+    var subject$1 = $as_Lmonix_reactive_observers_Subscriber$Sync(subject);
+    canvas$2.onmousemove = ((boundingBox$1$2, subject$2) => ((e) => {
+      var _1 = $doubleToInt(($uD(e.clientX) - $uD(boundingBox$1$2.x)));
+      var _2 = $doubleToInt(($uD(e.clientY) - $uD(boundingBox$1$2.y)));
+      return subject$2.onNext__O__Lmonix_execution_Ack(new $c_T2(_1, _2))
+    }))(boundingBox$2, subject$1);
+    return $ct_Lmonix_execution_cancelables_SingleAssignCancelable__(new $c_Lmonix_execution_cancelables_SingleAssignCancelable())
+  }))(canvas, boundingBox));
+  return new $c_Lmonix_reactive_internal_builders_CreateObservable(overflowStrategy, producerType, f)
 });
 var $d_Lit_unibo_game_view_PimpDom$package$ = new $TypeData().initClass({
   Lit_unibo_game_view_PimpDom$package$: 0
@@ -9713,56 +9721,6 @@ function $isArrayOf_Lmonix_reactive_internal_operators_MapTaskObservable$MapTask
 function $asArrayOf_Lmonix_reactive_internal_operators_MapTaskObservable$MapTaskState(obj, depth) {
   return (($isArrayOf_Lmonix_reactive_internal_operators_MapTaskObservable$MapTaskState(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.reactive.internal.operators.MapTaskObservable$MapTaskState;", depth))
 }
-/** @constructor */
-function $c_Lmonix_reactive_internal_util_PromiseCounter(value, initial) {
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_value = null;
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_promise = null;
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_counter = null;
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_value = value;
-  var requirement = (initial > 0);
-  if ((!requirement)) {
-    throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), "requirement failed: length must be strictly positive")
-  };
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_promise = $ct_s_concurrent_impl_Promise$DefaultPromise__(new $c_s_concurrent_impl_Promise$DefaultPromise());
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_counter = $as_Lmonix_execution_atomic_AtomicInt($m_Lmonix_execution_atomic_AtomicBuilder$().Lmonix_execution_atomic_AtomicBuilder$__f_AtomicIntBuilder.buildInstance__O__Lmonix_execution_atomic_PaddingStrategy__Z__Lmonix_execution_atomic_Atomic(initial, $m_Lmonix_execution_atomic_PaddingStrategy$NoPadding$(), true))
-}
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype = new $h_O();
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype.constructor = $c_Lmonix_reactive_internal_util_PromiseCounter;
-/** @constructor */
-function $h_Lmonix_reactive_internal_util_PromiseCounter() {
-  /*<skip>*/
-}
-$h_Lmonix_reactive_internal_util_PromiseCounter.prototype = $c_Lmonix_reactive_internal_util_PromiseCounter.prototype;
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype.future__s_concurrent_Future = (function() {
-  return this.Lmonix_reactive_internal_util_PromiseCounter__f_promise
-});
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype.acquire__V = (function() {
-  this.Lmonix_reactive_internal_util_PromiseCounter__f_counter.increment__I__V(1)
-});
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype.countdown__V = (function() {
-  var update = this.Lmonix_reactive_internal_util_PromiseCounter__f_counter.decrementAndGet__I__I(1);
-  if ((update === 0)) {
-    var this$1 = this.Lmonix_reactive_internal_util_PromiseCounter__f_promise;
-    var value = this.Lmonix_reactive_internal_util_PromiseCounter__f_value;
-    $f_s_concurrent_Promise__success__O__s_concurrent_Promise(this$1, value)
-  }
-});
-function $as_Lmonix_reactive_internal_util_PromiseCounter(obj) {
-  return (((obj instanceof $c_Lmonix_reactive_internal_util_PromiseCounter) || (obj === null)) ? obj : $throwClassCastException(obj, "monix.reactive.internal.util.PromiseCounter"))
-}
-function $isArrayOf_Lmonix_reactive_internal_util_PromiseCounter(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmonix_reactive_internal_util_PromiseCounter)))
-}
-function $asArrayOf_Lmonix_reactive_internal_util_PromiseCounter(obj, depth) {
-  return (($isArrayOf_Lmonix_reactive_internal_util_PromiseCounter(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.reactive.internal.util.PromiseCounter;", depth))
-}
-var $d_Lmonix_reactive_internal_util_PromiseCounter = new $TypeData().initClass({
-  Lmonix_reactive_internal_util_PromiseCounter: 0
-}, false, "monix.reactive.internal.util.PromiseCounter", {
-  Lmonix_reactive_internal_util_PromiseCounter: 1,
-  O: 1
-});
-$c_Lmonix_reactive_internal_util_PromiseCounter.prototype.$classData = $d_Lmonix_reactive_internal_util_PromiseCounter;
 function $f_Lmonix_reactive_observers_buffers_BuildersImpl__apply__Lmonix_reactive_observers_Subscriber__Lmonix_reactive_OverflowStrategy__Lmonix_execution_ChannelType$ProducerSide__Lmonix_reactive_observers_Subscriber($thiz, subscriber, bufferPolicy, producerType) {
   var x = $m_Lmonix_reactive_OverflowStrategy$Unbounded$();
   if ((x === bufferPolicy)) {
@@ -9810,6 +9768,51 @@ function $f_Lmonix_reactive_observers_buffers_BuildersImpl__apply__Lmonix_reacti
     var x4 = x$1$7._1__I();
     var x5 = x$1$7._2__F1();
     return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().clearBufferAndSignal__Lmonix_reactive_observers_Subscriber__I__F1__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x4, x5)
+  };
+  throw new $c_s_MatchError(bufferPolicy)
+}
+function $f_Lmonix_reactive_observers_buffers_BuildersImpl__synchronous__Lmonix_reactive_observers_Subscriber__Lmonix_reactive_OverflowStrategy$Synchronous__Lmonix_execution_ChannelType$ProducerSide__Lmonix_reactive_observers_Subscriber$Sync($thiz, subscriber, bufferPolicy, producerType) {
+  var x = $m_Lmonix_reactive_OverflowStrategy$Unbounded$();
+  if ((x === bufferPolicy)) {
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().unbounded__Lmonix_reactive_observers_Subscriber__Lmonix_reactive_observers_Subscriber$Sync(subscriber)
+  };
+  if (false) {
+    var x$1 = $as_Lmonix_reactive_OverflowStrategy$Fail(bufferPolicy);
+    var x53 = x$1._1__I();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().bounded__Lmonix_reactive_observers_Subscriber__I__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x53)
+  };
+  if (false) {
+    var x$1$1 = $as_Lmonix_reactive_OverflowStrategy$DropNew(bufferPolicy);
+    var x50 = x$1$1._1__I();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().dropNew__Lmonix_reactive_observers_Subscriber__I__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x50)
+  };
+  if (false) {
+    var x$1$2 = $as_Lmonix_reactive_OverflowStrategy$DropNewAndSignal(bufferPolicy);
+    var x46 = x$1$2._1__I();
+    var x47 = x$1$2._2__F1();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().dropNewAndSignal__Lmonix_reactive_observers_Subscriber__I__F1__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x46, x47)
+  };
+  if (false) {
+    var x$1$3 = $as_Lmonix_reactive_OverflowStrategy$DropOld(bufferPolicy);
+    var x43 = x$1$3._1__I();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().dropOld__Lmonix_reactive_observers_Subscriber__I__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x43)
+  };
+  if (false) {
+    var x$1$4 = $as_Lmonix_reactive_OverflowStrategy$DropOldAndSignal(bufferPolicy);
+    var x39 = x$1$4._1__I();
+    var x40 = x$1$4._2__F1();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().dropOldAndSignal__Lmonix_reactive_observers_Subscriber__I__F1__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x39, x40)
+  };
+  if (false) {
+    var x$1$5 = $as_Lmonix_reactive_OverflowStrategy$ClearBuffer(bufferPolicy);
+    var x36 = x$1$5._1__I();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().clearBuffer__Lmonix_reactive_observers_Subscriber__I__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x36)
+  };
+  if (false) {
+    var x$1$6 = $as_Lmonix_reactive_OverflowStrategy$ClearBufferAndSignal(bufferPolicy);
+    var x32 = x$1$6._1__I();
+    var x33 = x$1$6._2__F1();
+    return $m_Lmonix_reactive_observers_buffers_SyncBufferedSubscriber$().clearBufferAndSignal__Lmonix_reactive_observers_Subscriber__I__F1__Lmonix_reactive_observers_Subscriber$Sync(subscriber, x32, x33)
   };
   throw new $c_s_MatchError(bufferPolicy)
 }
@@ -22375,6 +22378,47 @@ function $h_Lmonix_reactive_OverflowStrategy$Synchronous() {
 }
 $h_Lmonix_reactive_OverflowStrategy$Synchronous.prototype = $c_Lmonix_reactive_OverflowStrategy$Synchronous.prototype;
 /** @constructor */
+function $c_Lmonix_reactive_internal_builders_CreateObservable(overflowStrategy, producerType, f) {
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_overflowStrategy = null;
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_producerType = null;
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_f = null;
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_overflowStrategy = overflowStrategy;
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_producerType = producerType;
+  this.Lmonix_reactive_internal_builders_CreateObservable__f_f = f
+}
+$c_Lmonix_reactive_internal_builders_CreateObservable.prototype = new $h_Lmonix_reactive_Observable();
+$c_Lmonix_reactive_internal_builders_CreateObservable.prototype.constructor = $c_Lmonix_reactive_internal_builders_CreateObservable;
+/** @constructor */
+function $h_Lmonix_reactive_internal_builders_CreateObservable() {
+  /*<skip>*/
+}
+$h_Lmonix_reactive_internal_builders_CreateObservable.prototype = $c_Lmonix_reactive_internal_builders_CreateObservable.prototype;
+$c_Lmonix_reactive_internal_builders_CreateObservable.prototype.unsafeSubscribeFn__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Cancelable = (function(subscriber) {
+  var this$1 = $m_Lmonix_reactive_observers_BufferedSubscriber$();
+  var bufferPolicy = this.Lmonix_reactive_internal_builders_CreateObservable__f_overflowStrategy;
+  var producerType = this.Lmonix_reactive_internal_builders_CreateObservable__f_producerType;
+  var out = $f_Lmonix_reactive_observers_buffers_BuildersImpl__synchronous__Lmonix_reactive_observers_Subscriber__Lmonix_reactive_OverflowStrategy$Synchronous__Lmonix_execution_ChannelType$ProducerSide__Lmonix_reactive_observers_Subscriber$Sync(this$1, subscriber, bufferPolicy, producerType);
+  try {
+    return $as_Lmonix_execution_Cancelable(this.Lmonix_reactive_internal_builders_CreateObservable__f_f.apply__O__O(out))
+  } catch (e) {
+    var e$2 = $m_sjsr_package$().wrapJavaScriptException__O__jl_Throwable(e);
+    if ($m_s_util_control_NonFatal$().apply__jl_Throwable__Z(e$2)) {
+      subscriber.scheduler__Lmonix_execution_Scheduler().reportFailure__jl_Throwable__V(e$2);
+      return $m_Lmonix_execution_Cancelable$().Lmonix_execution_Cancelable$__f_empty
+    };
+    throw e$2
+  }
+});
+var $d_Lmonix_reactive_internal_builders_CreateObservable = new $TypeData().initClass({
+  Lmonix_reactive_internal_builders_CreateObservable: 0
+}, false, "monix.reactive.internal.builders.CreateObservable", {
+  Lmonix_reactive_internal_builders_CreateObservable: 1,
+  Lmonix_reactive_Observable: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lmonix_reactive_internal_builders_CreateObservable.prototype.$classData = $d_Lmonix_reactive_internal_builders_CreateObservable;
+/** @constructor */
 function $c_Lmonix_reactive_internal_builders_IntervalFixedRateObservable(initialDelay, period) {
   this.Lmonix_reactive_internal_builders_IntervalFixedRateObservable__f_initialDelay = null;
   this.Lmonix_reactive_internal_builders_IntervalFixedRateObservable__f_monix$reactive$internal$builders$IntervalFixedRateObservable$$period = null;
@@ -22882,14 +22926,6 @@ function $isArrayOf_Lmonix_reactive_observers_Subscriber(obj, depth) {
 function $asArrayOf_Lmonix_reactive_observers_Subscriber(obj, depth) {
   return (($isArrayOf_Lmonix_reactive_observers_Subscriber(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.reactive.observers.Subscriber;", depth))
 }
-var $d_Lmonix_reactive_observers_Subscriber = new $TypeData().initClass({
-  Lmonix_reactive_observers_Subscriber: 0
-}, true, "monix.reactive.observers.Subscriber", {
-  Lmonix_reactive_observers_Subscriber: 1,
-  O: 1,
-  Ljava_io_Serializable: 1,
-  Lmonix_reactive_Observer: 1
-});
 /** @constructor */
 function $c_s_$less$colon$less() {
   /*<skip>*/
@@ -27996,25 +28032,6 @@ $c_Lmonix_execution_atomic_AtomicInt.prototype.compareAndSet__I__I__Z = (functio
     return false
   }
 });
-$c_Lmonix_execution_atomic_AtomicInt.prototype.incrementAndGet__I__I = (function(v) {
-  this.Lmonix_execution_atomic_AtomicInt__f_ref = ((this.Lmonix_execution_atomic_AtomicInt__f_ref + v) | 0);
-  return this.Lmonix_execution_atomic_AtomicInt__f_ref
-});
-$c_Lmonix_execution_atomic_AtomicInt.prototype.increment__I__V = (function(v) {
-  this.Lmonix_execution_atomic_AtomicInt__f_ref = ((this.Lmonix_execution_atomic_AtomicInt__f_ref + v) | 0)
-});
-$c_Lmonix_execution_atomic_AtomicInt.prototype.decrementAndGet__I__I = (function(v) {
-  return this.incrementAndGet__I__I(((-v) | 0))
-});
-function $as_Lmonix_execution_atomic_AtomicInt(obj) {
-  return (((obj instanceof $c_Lmonix_execution_atomic_AtomicInt) || (obj === null)) ? obj : $throwClassCastException(obj, "monix.execution.atomic.AtomicInt"))
-}
-function $isArrayOf_Lmonix_execution_atomic_AtomicInt(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmonix_execution_atomic_AtomicInt)))
-}
-function $asArrayOf_Lmonix_execution_atomic_AtomicInt(obj, depth) {
-  return (($isArrayOf_Lmonix_execution_atomic_AtomicInt(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.execution.atomic.AtomicInt;", depth))
-}
 var $d_Lmonix_execution_atomic_AtomicInt = new $TypeData().initClass({
   Lmonix_execution_atomic_AtomicInt: 0
 }, false, "monix.execution.atomic.AtomicInt", {
@@ -29054,138 +29071,6 @@ var $d_Lmonix_reactive_internal_operators_ThrottleLastObservable$$anon$2 = new $
   Lmonix_reactive_observers_Subscriber: 1
 });
 $c_Lmonix_reactive_internal_operators_ThrottleLastObservable$$anon$2.prototype.$classData = $d_Lmonix_reactive_internal_operators_ThrottleLastObservable$$anon$2;
-/** @constructor */
-function $c_Lmonix_reactive_subjects_PublishSubject$State(subscribers, cache, errorThrown) {
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers = null;
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_cache = null;
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown = null;
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers = subscribers;
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_cache = cache;
-  this.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown = errorThrown
-}
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype = new $h_O();
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.constructor = $c_Lmonix_reactive_subjects_PublishSubject$State;
-/** @constructor */
-function $h_Lmonix_reactive_subjects_PublishSubject$State() {
-  /*<skip>*/
-}
-$h_Lmonix_reactive_subjects_PublishSubject$State.prototype = $c_Lmonix_reactive_subjects_PublishSubject$State.prototype;
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.productIterator__sc_Iterator = (function() {
-  return new $c_s_Product$$anon$1(this)
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.equals__O__Z = (function(x$0) {
-  if ((this === x$0)) {
-    return true
-  } else if ((x$0 instanceof $c_Lmonix_reactive_subjects_PublishSubject$State)) {
-    var x$0$2 = $as_Lmonix_reactive_subjects_PublishSubject$State(x$0);
-    var x = this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-    var x$2 = x$0$2.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-    if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
-      var x$3 = this.Lmonix_reactive_subjects_PublishSubject$State__f_cache;
-      var x$4 = x$0$2.Lmonix_reactive_subjects_PublishSubject$State__f_cache;
-      var $$x1 = (x$3 === x$4)
-    } else {
-      var $$x1 = false
-    };
-    if ($$x1) {
-      var x$5 = this.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown;
-      var x$6 = x$0$2.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown;
-      return ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
-    } else {
-      return false
-    }
-  } else {
-    return false
-  }
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.productArity__I = (function() {
-  return 3
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.productPrefix__T = (function() {
-  return "State"
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.productElement__I__O = (function(n) {
-  switch (n) {
-    case 0: {
-      return this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-      break
-    }
-    case 1: {
-      return this.Lmonix_reactive_subjects_PublishSubject$State__f_cache;
-      break
-    }
-    case 2: {
-      return this.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown;
-      break
-    }
-    default: {
-      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
-    }
-  }
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.refresh__Lmonix_reactive_subjects_PublishSubject$State = (function() {
-  var this$2 = this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-  if ((this$2.knownSize__I() >= 0)) {
-    var len = this$2.knownSize__I();
-    var destination = new ($d_Lmonix_reactive_observers_Subscriber.getArrayOf().constr)(len);
-    this$2.copyToArray__O__I__I__I(destination, 0, 2147483647);
-    var cache$1 = destination
-  } else {
-    var capacity = 0;
-    var size = 0;
-    var jsElems = null;
-    capacity = 0;
-    size = 0;
-    jsElems = [];
-    var it = this$2.iterator__sc_Iterator();
-    while (it.hasNext__Z()) {
-      var elem = it.next__O();
-      var unboxedElem = ((elem === null) ? null : elem);
-      jsElems.push(unboxedElem)
-    };
-    var cache$1 = new ($d_Lmonix_reactive_observers_Subscriber.getArrayOf().constr)(jsElems)
-  };
-  var subscribers$1 = this.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-  var errorThrown$1 = this.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown;
-  return new $c_Lmonix_reactive_subjects_PublishSubject$State(subscribers$1, cache$1, errorThrown$1)
-});
-function $as_Lmonix_reactive_subjects_PublishSubject$State(obj) {
-  return (((obj instanceof $c_Lmonix_reactive_subjects_PublishSubject$State) || (obj === null)) ? obj : $throwClassCastException(obj, "monix.reactive.subjects.PublishSubject$State"))
-}
-function $isArrayOf_Lmonix_reactive_subjects_PublishSubject$State(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmonix_reactive_subjects_PublishSubject$State)))
-}
-function $asArrayOf_Lmonix_reactive_subjects_PublishSubject$State(obj, depth) {
-  return (($isArrayOf_Lmonix_reactive_subjects_PublishSubject$State(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.reactive.subjects.PublishSubject$State;", depth))
-}
-var $d_Lmonix_reactive_subjects_PublishSubject$State = new $TypeData().initClass({
-  Lmonix_reactive_subjects_PublishSubject$State: 0
-}, false, "monix.reactive.subjects.PublishSubject$State", {
-  Lmonix_reactive_subjects_PublishSubject$State: 1,
-  O: 1,
-  s_Equals: 1,
-  s_Product: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lmonix_reactive_subjects_PublishSubject$State.prototype.$classData = $d_Lmonix_reactive_subjects_PublishSubject$State;
-/** @constructor */
-function $c_Lmonix_reactive_subjects_Subject() {
-  /*<skip>*/
-}
-$c_Lmonix_reactive_subjects_Subject.prototype = new $h_Lmonix_reactive_Observable();
-$c_Lmonix_reactive_subjects_Subject.prototype.constructor = $c_Lmonix_reactive_subjects_Subject;
-/** @constructor */
-function $h_Lmonix_reactive_subjects_Subject() {
-  /*<skip>*/
-}
-$h_Lmonix_reactive_subjects_Subject.prototype = $c_Lmonix_reactive_subjects_Subject.prototype;
 /** @constructor */
 function $c_Lmonocle_IsoInstances$$anon$1() {
   /*<skip>*/
@@ -33568,6 +33453,18 @@ var $d_Lmonix_reactive_internal_operators_ScanTaskObservable$ScanTaskSubscriber 
   Lmonix_execution_Cancelable: 1
 });
 $c_Lmonix_reactive_internal_operators_ScanTaskObservable$ScanTaskSubscriber.prototype.$classData = $d_Lmonix_reactive_internal_operators_ScanTaskObservable$ScanTaskSubscriber;
+function $is_Lmonix_reactive_observers_Subscriber$Sync(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lmonix_reactive_observers_Subscriber$Sync)))
+}
+function $as_Lmonix_reactive_observers_Subscriber$Sync(obj) {
+  return (($is_Lmonix_reactive_observers_Subscriber$Sync(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "monix.reactive.observers.Subscriber$Sync"))
+}
+function $isArrayOf_Lmonix_reactive_observers_Subscriber$Sync(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmonix_reactive_observers_Subscriber$Sync)))
+}
+function $asArrayOf_Lmonix_reactive_observers_Subscriber$Sync(obj, depth) {
+  return (($isArrayOf_Lmonix_reactive_observers_Subscriber$Sync(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmonix.reactive.observers.Subscriber$Sync;", depth))
+}
 function $ct_Lmonix_reactive_observers_buffers_AbstractBackPressuredBufferedSubscriber__Lmonix_reactive_observers_Subscriber__I__($thiz, out, _size) {
   $thiz.Lmonix_reactive_observers_buffers_AbstractBackPressuredBufferedSubscriber__f_monix$reactive$observers$buffers$AbstractBackPressuredBufferedSubscriber$$out = out;
   var requirement = (_size > 0);
@@ -33658,150 +33555,6 @@ $c_Lmonix_reactive_observers_buffers_AbstractBackPressuredBufferedSubscriber.pro
     $p_Lmonix_reactive_observers_buffers_AbstractBackPressuredBufferedSubscriber__pushToConsumer__V(this)
   }
 });
-function $p_Lmonix_reactive_subjects_PublishSubject__onSubscribeCompleted__Lmonix_reactive_observers_Subscriber__jl_Throwable__Lmonix_execution_Cancelable($thiz, subscriber, ex) {
-  if ((ex !== null)) {
-    subscriber.onError__jl_Throwable__V(ex)
-  } else {
-    subscriber.onComplete__V()
-  };
-  return $m_Lmonix_execution_Cancelable$().Lmonix_execution_Cancelable$__f_empty
-}
-function $p_Lmonix_reactive_subjects_PublishSubject__sendOnNextToAll__ALmonix_reactive_observers_Subscriber__O__s_concurrent_Future($thiz, subscribers, elem) {
-  var result = new $c_sr_ObjectRef(null);
-  var index = 0;
-  while ((index < subscribers.u.length)) {
-    var subscriber = subscribers.get(index);
-    index = ((1 + index) | 0);
-    try {
-      var ack = subscriber.onNext__O__s_concurrent_Future(elem)
-    } catch (e) {
-      var e$2 = $m_sjsr_package$().wrapJavaScriptException__O__jl_Throwable(e);
-      matchResult1: {
-        var ack;
-        if ($m_s_util_control_NonFatal$().apply__jl_Throwable__Z(e$2)) {
-          var ack = $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(e$2);
-          break matchResult1
-        };
-        throw e$2
-      }
-    };
-    if (ack.isCompleted__Z()) {
-      var x$2 = $m_Lmonix_execution_Ack$Continue$();
-      if ((!((ack !== null) && ack.equals__O__Z(x$2)))) {
-        var x$3 = ack.value__s_Option().get__O();
-        var x$4 = $m_Lmonix_execution_Ack$Continue$().Lmonix_execution_Ack$Continue$__f_AsSuccess;
-        var $$x1 = (!((x$3 === null) ? (x$4 === null) : $dp_equals__O__Z(x$3, x$4)))
-      } else {
-        var $$x1 = false
-      };
-      if ($$x1) {
-        $p_Lmonix_reactive_subjects_PublishSubject__unsubscribe__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Ack($thiz, subscriber)
-      }
-    } else {
-      if (($as_Lmonix_reactive_internal_util_PromiseCounter(result.sr_ObjectRef__f_elem) === null)) {
-        var value = $m_Lmonix_execution_Ack$Continue$();
-        var ev$2 = new $c_Lmonix_reactive_internal_util_PromiseCounter(value, 1);
-        result.sr_ObjectRef__f_elem = ev$2
-      };
-      $as_Lmonix_reactive_internal_util_PromiseCounter(result.sr_ObjectRef__f_elem).acquire__V();
-      ack.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$3, result$2, subscriber$2) => ((x$1) => {
-        var x$1$1 = $as_s_util_Try(x$1);
-        var x = $m_Lmonix_execution_Ack$Continue$().Lmonix_execution_Ack$Continue$__f_AsSuccess;
-        if (((x === null) ? (x$1$1 === null) : x.equals__O__Z(x$1$1))) {
-          $as_Lmonix_reactive_internal_util_PromiseCounter(result$2.sr_ObjectRef__f_elem).countdown__V()
-        } else {
-          $p_Lmonix_reactive_subjects_PublishSubject__unsubscribe__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Ack(this$3, subscriber$2);
-          $as_Lmonix_reactive_internal_util_PromiseCounter(result$2.sr_ObjectRef__f_elem).countdown__V()
-        }
-      }))($thiz, result, subscriber)), subscriber.scheduler__Lmonix_execution_Scheduler())
-    }
-  };
-  return (($as_Lmonix_reactive_internal_util_PromiseCounter(result.sr_ObjectRef__f_elem) === null) ? $m_Lmonix_execution_Ack$Continue$() : ($as_Lmonix_reactive_internal_util_PromiseCounter(result.sr_ObjectRef__f_elem).countdown__V(), $as_Lmonix_reactive_internal_util_PromiseCounter(result.sr_ObjectRef__f_elem).future__s_concurrent_Future()))
-}
-function $p_Lmonix_reactive_subjects_PublishSubject__unsubscribe__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Ack($thiz, subscriber) {
-  var this$ = $thiz;
-  while (true) {
-    var state = $as_Lmonix_reactive_subjects_PublishSubject$State(this$.Lmonix_reactive_subjects_PublishSubject__f_stateRef.Lmonix_execution_atomic_AtomicAny__f_ref);
-    var subscribers = state.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-    if ((subscribers === null)) {
-      return $m_Lmonix_execution_Ack$Continue$()
-    } else {
-      var subscribers$1 = $as_sci_Set(subscribers.excl__O__sci_SetOps(subscriber));
-      var update = new $c_Lmonix_reactive_subjects_PublishSubject$State(subscribers$1, null, null);
-      if ((!this$.Lmonix_reactive_subjects_PublishSubject__f_stateRef.compareAndSet__O__O__Z(state, update))) {
-        this$ = this$
-      } else {
-        return $m_Lmonix_execution_Ack$Continue$()
-      }
-    }
-  }
-}
-/** @constructor */
-function $c_Lmonix_reactive_subjects_PublishSubject() {
-  this.Lmonix_reactive_subjects_PublishSubject__f_stateRef = null;
-  var subscribers = $m_sci_Set$EmptySet$();
-  var initialValue$proxy1 = new $c_Lmonix_reactive_subjects_PublishSubject$State(subscribers, null, null);
-  $m_Lmonix_execution_atomic_AtomicBuilder$();
-  new $c_Lmonix_execution_atomic_Implicits$$anon$1();
-  this.Lmonix_reactive_subjects_PublishSubject__f_stateRef = new $c_Lmonix_execution_atomic_AtomicAny(initialValue$proxy1)
-}
-$c_Lmonix_reactive_subjects_PublishSubject.prototype = new $h_Lmonix_reactive_subjects_Subject();
-$c_Lmonix_reactive_subjects_PublishSubject.prototype.constructor = $c_Lmonix_reactive_subjects_PublishSubject;
-/** @constructor */
-function $h_Lmonix_reactive_subjects_PublishSubject() {
-  /*<skip>*/
-}
-$h_Lmonix_reactive_subjects_PublishSubject.prototype = $c_Lmonix_reactive_subjects_PublishSubject.prototype;
-$c_Lmonix_reactive_subjects_PublishSubject.prototype.unsafeSubscribeFn__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Cancelable = (function(subscriber) {
-  var this$ = this;
-  while (true) {
-    var state = $as_Lmonix_reactive_subjects_PublishSubject$State(this$.Lmonix_reactive_subjects_PublishSubject__f_stateRef.Lmonix_execution_atomic_AtomicAny__f_ref);
-    var subscribers = state.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-    if ((subscribers === null)) {
-      return $p_Lmonix_reactive_subjects_PublishSubject__onSubscribeCompleted__Lmonix_reactive_observers_Subscriber__jl_Throwable__Lmonix_execution_Cancelable(this$, subscriber, state.Lmonix_reactive_subjects_PublishSubject$State__f_errorThrown)
-    } else {
-      var subscribers$1 = $as_sci_Set(subscribers.incl__O__sci_SetOps(subscriber));
-      var update = new $c_Lmonix_reactive_subjects_PublishSubject$State(subscribers$1, null, null);
-      if ((!this$.Lmonix_reactive_subjects_PublishSubject__f_stateRef.compareAndSet__O__O__Z(state, update))) {
-        this$ = this$
-      } else {
-        $m_Lmonix_execution_Cancelable$();
-        var \u03b4this$1 = this$;
-        var callback = new $c_sjsr_AnonFunction0(((subscriber$2, \u03b4this) => (() => {
-          $p_Lmonix_reactive_subjects_PublishSubject__unsubscribe__Lmonix_reactive_observers_Subscriber__Lmonix_execution_Ack(\u03b4this, subscriber$2)
-        }))(subscriber, \u03b4this$1));
-        return new $c_Lmonix_execution_Cancelable$CancelableTask(callback)
-      }
-    }
-  }
-});
-$c_Lmonix_reactive_subjects_PublishSubject.prototype.onNext__O__s_concurrent_Future = (function(elem) {
-  var state = $as_Lmonix_reactive_subjects_PublishSubject$State(this.Lmonix_reactive_subjects_PublishSubject__f_stateRef.Lmonix_execution_atomic_AtomicAny__f_ref);
-  var subscribersArray = state.Lmonix_reactive_subjects_PublishSubject$State__f_cache;
-  if ((subscribersArray === null)) {
-    var set = state.Lmonix_reactive_subjects_PublishSubject$State__f_subscribers;
-    if ((set === null)) {
-      return $m_Lmonix_execution_Ack$Stop$()
-    } else {
-      var update = state.refresh__Lmonix_reactive_subjects_PublishSubject$State();
-      this.Lmonix_reactive_subjects_PublishSubject__f_stateRef.compareAndSet__O__O__Z(state, update);
-      return $p_Lmonix_reactive_subjects_PublishSubject__sendOnNextToAll__ALmonix_reactive_observers_Subscriber__O__s_concurrent_Future(this, update.Lmonix_reactive_subjects_PublishSubject$State__f_cache, elem)
-    }
-  } else {
-    return $p_Lmonix_reactive_subjects_PublishSubject__sendOnNextToAll__ALmonix_reactive_observers_Subscriber__O__s_concurrent_Future(this, subscribersArray, elem)
-  }
-});
-var $d_Lmonix_reactive_subjects_PublishSubject = new $TypeData().initClass({
-  Lmonix_reactive_subjects_PublishSubject: 0
-}, false, "monix.reactive.subjects.PublishSubject", {
-  Lmonix_reactive_subjects_PublishSubject: 1,
-  Lmonix_reactive_subjects_Subject: 1,
-  Lmonix_reactive_Observable: 1,
-  O: 1,
-  Ljava_io_Serializable: 1,
-  Lmonix_reactive_Observer: 1
-});
-$c_Lmonix_reactive_subjects_PublishSubject.prototype.$classData = $d_Lmonix_reactive_subjects_PublishSubject;
 /** @constructor */
 function $c_Lmonocle_LensInstances$$anon$1() {
   /*<skip>*/
@@ -41170,6 +40923,9 @@ function $h_Lmonix_reactive_Observable$$anon$6() {
 $h_Lmonix_reactive_Observable$$anon$6.prototype = $c_Lmonix_reactive_Observable$$anon$6.prototype;
 $c_Lmonix_reactive_Observable$$anon$6.prototype.scheduler__Lmonix_execution_Scheduler = (function() {
   return this.Lmonix_reactive_Observable$$anon$6__f_scheduler
+});
+$c_Lmonix_reactive_Observable$$anon$6.prototype.onNext__O__Lmonix_execution_Ack = (function(elem) {
+  return $m_Lmonix_execution_Ack$Continue$()
 });
 $c_Lmonix_reactive_Observable$$anon$6.prototype.onError__jl_Throwable__V = (function(ex) {
   if ((!this.Lmonix_reactive_Observable$$anon$6__f_isDone)) {
