@@ -9,7 +9,12 @@ import monix.execution.Scheduler.Implicits.global
   val div = dom.document.createElement("div").asInstanceOf[html.Div]
   div.style = "text-align: center"
   canvas.style = "border: 5px solid black; display: block; margin: 0 auto"
-  val canvasSize = (dom.window.innerHeight * 0.985).toInt
+  val size =
+    if (dom.window.innerHeight > dom.window.innerWidth)
+      dom.window.innerWidth
+    else
+      dom.window.innerHeight
+  val canvasSize = (size * 0.985).toInt
   canvas.width = canvasSize
   canvas.height = canvasSize
   body.append(canvas)
