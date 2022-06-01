@@ -2,6 +2,7 @@ name: Game deploy
 
 on:
     push:
+    workflow_dispatch:
 jobs:
   Build:
     strategy:
