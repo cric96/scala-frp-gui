@@ -2625,8 +2625,7 @@ $c_Lit_unibo_game_update_CollisionDetection$.prototype.apply__Lit_unibo_game_upd
           return new $c_sjsr_AnonFunction1(((to$2) => ((from$2) => {
             var from$3 = $as_Lit_unibo_game_core_World(from$2);
             var player = from$3.Lit_unibo_game_core_World__f_player;
-            var counter = from$3.Lit_unibo_game_core_World__f_counter;
-            return new $c_Lit_unibo_game_core_World(player, to$2, counter)
+            return new $c_Lit_unibo_game_core_World(player, to$2)
           }))(to$1))
         }));
         $m_Lmonocle_PLens$();
@@ -2644,8 +2643,7 @@ $c_Lit_unibo_game_update_CollisionDetection$.prototype.apply__Lit_unibo_game_upd
           return new $c_sjsr_AnonFunction1(((to$2$2) => ((from$5) => {
             var from$6 = $as_Lit_unibo_game_core_World(from$5);
             var food$1 = from$6.Lit_unibo_game_core_World__f_food;
-            var counter$1 = from$6.Lit_unibo_game_core_World__f_counter;
-            return new $c_Lit_unibo_game_core_World(to$2$2, food$1, counter$1)
+            return new $c_Lit_unibo_game_core_World(to$2$2, food$1)
           }))(to$3))
         }));
         $m_Lmonocle_PLens$();
@@ -2754,8 +2752,7 @@ $c_Lit_unibo_game_update_RandomWalk$.prototype.apply__D__s_util_Random__Lit_unib
         return new $c_sjsr_AnonFunction1(((to$2) => ((from$2) => {
           var from$3 = $as_Lit_unibo_game_core_World(from$2);
           var player = from$3.Lit_unibo_game_core_World__f_player;
-          var counter = from$3.Lit_unibo_game_core_World__f_counter;
-          return new $c_Lit_unibo_game_core_World(player, to$2, counter)
+          return new $c_Lit_unibo_game_core_World(player, to$2)
         }))(to$1))
       }));
       $m_Lmonocle_PLens$();
@@ -2818,8 +2815,7 @@ $c_Lit_unibo_game_update_Spawner$.prototype.apply__D__s_util_Random__Lit_unibo_g
           return new $c_sjsr_AnonFunction1(((to$2) => ((from$2) => {
             var from$3 = $as_Lit_unibo_game_core_World(from$2);
             var player = from$3.Lit_unibo_game_core_World__f_player;
-            var counter = from$3.Lit_unibo_game_core_World__f_counter;
-            return new $c_Lit_unibo_game_core_World(player, to$2, counter)
+            return new $c_Lit_unibo_game_core_World(player, to$2)
           }))(to$1))
         }));
         $m_Lmonocle_PLens$();
@@ -19880,7 +19876,7 @@ $c_Lit_unibo_game_core_World$.prototype.empty__Lit_unibo_game_core_World = (func
   var position = new $c_T2(0.5, 0.5);
   var player = new $c_Lit_unibo_game_core_Entity$Player(0.005, position);
   var food = $as_sci_Seq($m_s_package$().s_package$__f_Seq.empty__sc_SeqOps());
-  return new $c_Lit_unibo_game_core_World(player, food, 0)
+  return new $c_Lit_unibo_game_core_World(player, food)
 });
 var $d_Lit_unibo_game_core_World$ = new $TypeData().initClass({
   Lit_unibo_game_core_World$: 0
@@ -25631,14 +25627,12 @@ var $d_Lcats_effect_tracing_IOTrace = new $TypeData().initClass({
 });
 $c_Lcats_effect_tracing_IOTrace.prototype.$classData = $d_Lcats_effect_tracing_IOTrace;
 /** @constructor */
-function $c_Lit_unibo_game_core_World(player, food, counter) {
+function $c_Lit_unibo_game_core_World(player, food) {
   this.Lit_unibo_game_core_World__f_player = null;
   this.Lit_unibo_game_core_World__f_food = null;
-  this.Lit_unibo_game_core_World__f_counter = 0;
   this.Lit_unibo_game_core_World__f_all = null;
   this.Lit_unibo_game_core_World__f_player = player;
   this.Lit_unibo_game_core_World__f_food = food;
-  this.Lit_unibo_game_core_World__f_counter = counter;
   this.Lit_unibo_game_core_World__f_all = $as_sci_Seq(food.appended__O__O(player))
 }
 $c_Lit_unibo_game_core_World.prototype = new $h_O();
@@ -25652,37 +25646,17 @@ $c_Lit_unibo_game_core_World.prototype.productIterator__sc_Iterator = (function(
   return new $c_s_Product$$anon$1(this)
 });
 $c_Lit_unibo_game_core_World.prototype.hashCode__I = (function() {
-  var acc = (-889275714);
-  var hash = acc;
-  var data = $f_T__hashCode__I("World");
-  acc = $m_sr_Statics$().mix__I__I__I(hash, data);
-  var hash$1 = acc;
-  var x = this.Lit_unibo_game_core_World__f_player;
-  var data$1 = $m_sr_Statics$().anyHash__O__I(x);
-  acc = $m_sr_Statics$().mix__I__I__I(hash$1, data$1);
-  var hash$2 = acc;
-  var x$1 = this.Lit_unibo_game_core_World__f_food;
-  var data$2 = $m_sr_Statics$().anyHash__O__I(x$1);
-  acc = $m_sr_Statics$().mix__I__I__I(hash$2, data$2);
-  var hash$3 = acc;
-  var data$3 = this.Lit_unibo_game_core_World__f_counter;
-  acc = $m_sr_Statics$().mix__I__I__I(hash$3, data$3);
-  var hash$4 = acc;
-  return $m_sr_Statics$().finalizeHash__I__I__I(hash$4, 3)
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
 });
 $c_Lit_unibo_game_core_World.prototype.equals__O__Z = (function(x$0) {
   if ((this === x$0)) {
     return true
   } else if ((x$0 instanceof $c_Lit_unibo_game_core_World)) {
     var x$0$2 = $as_Lit_unibo_game_core_World(x$0);
-    if ((this.Lit_unibo_game_core_World__f_counter === x$0$2.Lit_unibo_game_core_World__f_counter)) {
-      var x = this.Lit_unibo_game_core_World__f_player;
-      var x$2 = x$0$2.Lit_unibo_game_core_World__f_player;
-      var $$x1 = ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
-    } else {
-      var $$x1 = false
-    };
-    if ($$x1) {
+    var x = this.Lit_unibo_game_core_World__f_player;
+    var x$2 = x$0$2.Lit_unibo_game_core_World__f_player;
+    if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
       var x$3 = this.Lit_unibo_game_core_World__f_food;
       var x$4 = x$0$2.Lit_unibo_game_core_World__f_food;
       return ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
@@ -25697,29 +25671,19 @@ $c_Lit_unibo_game_core_World.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
 });
 $c_Lit_unibo_game_core_World.prototype.productArity__I = (function() {
-  return 3
+  return 2
 });
 $c_Lit_unibo_game_core_World.prototype.productPrefix__T = (function() {
   return "World"
 });
 $c_Lit_unibo_game_core_World.prototype.productElement__I__O = (function(n) {
-  switch (n) {
-    case 0: {
-      return this.Lit_unibo_game_core_World__f_player;
-      break
-    }
-    case 1: {
-      return this.Lit_unibo_game_core_World__f_food;
-      break
-    }
-    case 2: {
-      return this.Lit_unibo_game_core_World__f_counter;
-      break
-    }
-    default: {
-      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
-    }
-  }
+  if ((n === 0)) {
+    return this.Lit_unibo_game_core_World__f_player
+  };
+  if ((n === 1)) {
+    return this.Lit_unibo_game_core_World__f_food
+  };
+  throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
 });
 function $as_Lit_unibo_game_core_World(obj) {
   return (((obj instanceof $c_Lit_unibo_game_core_World) || (obj === null)) ? obj : $throwClassCastException(obj, "it.unibo.game.core.World"))
@@ -39139,8 +39103,7 @@ $c_Lit_unibo_game_update_MovePlayer.prototype.apply__Lit_unibo_game_core_Event__
         return new $c_sjsr_AnonFunction1(((to$2$1) => ((from$6) => {
           var from$7 = $as_Lit_unibo_game_core_World(from$6);
           var food = from$7.Lit_unibo_game_core_World__f_food;
-          var counter = from$7.Lit_unibo_game_core_World__f_counter;
-          return new $c_Lit_unibo_game_core_World(to$2$1, food, counter)
+          return new $c_Lit_unibo_game_core_World(to$2$1, food)
         }))(to$4))
       }));
       $m_Lmonocle_PLens$();
