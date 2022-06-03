@@ -2,7 +2,7 @@ package it.unibo.game.core
 
 import Entity.*
 import Space.Point2D
-case class World(player: Player, food: Seq[Food], counter: Int = 0):
+case class World(player: Player, food: Seq[Food]):
   val all: Seq[Entity] = food :+ player
 
 object World:
