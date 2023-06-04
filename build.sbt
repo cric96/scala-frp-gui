@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "3.1.2"
+ThisBuild / scalaVersion := "3.2.2"
 
 name := "scala-frp-gui"
 

@@ -9,8 +9,8 @@ object Space:
     def unapply(p: Point2D): Option[(Double, Double)] = Some((p.x, p.y))
 
   extension (self: Point2D)
-    def x = self._1
-    def y = self._2
+    def x: Double = self._1
+    def y: Double = self._2
     @targetName("plus")
     def +(p: Point2D): Point2D = (x + p.x, y + p.y)
     @targetName("minus")

@@ -20,7 +20,6 @@ extension (component: Component)
     // Using observable..
     Observable.create(OverflowStrategy.Unbounded) { subject =>
       component.addMouseMotionListener(new MouseMotionListener:
-        println("Here..")
         override def mouseDragged(e: MouseEvent): Unit = {}
         override def mouseMoved(e: MouseEvent): Unit =
           subject.onNext((e.getX, e.getY))
