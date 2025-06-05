@@ -29,8 +29,7 @@ jobs:
         uses: olafurpg/setup-scala@v10
         with:
           java-version: adopt@1.${{ matrix.java }}
-      - name: Coursier cache
-        uses: coursier/cache-action@v5
+
 #      - name: Sbt test
 #        run: sbt test
       - name: Build project
