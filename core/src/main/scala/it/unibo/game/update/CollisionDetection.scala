@@ -11,7 +11,7 @@ import monocle.syntax.all.*
 
 object CollisionDetection:
   def apply(): Update = on[TimePassed] { (_: Event, world: World) =>
-    Task {
+    Task:
       val foodToEat = world.food.filter(hit(_, world.player)).find(canEat(_, world.player))
       foodToEat match
         case Some(food) =>
@@ -22,7 +22,6 @@ object CollisionDetection:
             .focus(_.player)
             .modify(updateSize(_, food))
         case None => world
-    }
   }
 
   private def hit(food: Food, player: Player): Boolean =

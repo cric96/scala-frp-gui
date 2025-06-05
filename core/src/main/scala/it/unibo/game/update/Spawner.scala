@@ -13,12 +13,11 @@ import scala.util.Random
 object Spawner:
   private val minBound = 0.001
   private val maxBound = 0.01
-  def apply(rate: Double)(using random: Random): Update = on[Event.TimePassed] { (_, world) =>
+  def apply(rate: Double)(using random: Random): Update = on[Event.TimePassed]: (_, world) =>
     if (random.nextDouble() < rate)
       Task(world.focus(_.food).modify(_ :+ newFood()))
     else
       Task(world)
-  }
 
   private def newFood()(using random: Random): Food =
     Food(random.between(minBound, maxBound), Point2D(random.nextDouble(), random.nextDouble()))
